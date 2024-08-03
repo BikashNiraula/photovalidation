@@ -293,7 +293,7 @@ def display_csv(request):
         for row in reader:
             csv_data.append(row)
 
-    return render(request, "api\\display_csv.html", {"csv_data": csv_data})
+    return render(request, "api\display_csv.html", {"csv_data": csv_data})
     # return render(request, 'api/display_csv.html', {'csv_data': csv_data})
 
 
@@ -317,7 +317,7 @@ def delete_all(request):
     if not os.path.exists(invalid_folder):
         os.mkdir(invalid_folder)
     form = PhotoFolderUploadForm()
-    return render(request, "api\\index1.html", {"form": form})
+    return render(request, "api\index1.html", {"form": form})
     # return render(request, 'api/index1.html', {'form': form})
 
 
