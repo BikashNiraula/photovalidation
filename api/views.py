@@ -146,8 +146,8 @@ def image_gallery(request):
 def process_selected_images(request):
     if request.method == "POST":
         path = request.session.get("path")
-        validDirectory = path + "\\" + "valid\\"
-        # validDirectory = path + "/" + "valid/"
+        # validDirectory = path + "\\" + "valid\\"
+        validDirectory = path + "/" + "valid/"
         result_file = os.path.join(
             settings.STATIC_ROOT, "api", "static", "api", "images", "result.csv"
         )
@@ -229,8 +229,8 @@ def process_selected_images(request):
 def process_rejected_images(request):
     if request.method == "POST":
         path = request.session.get("path")
-        invalidDirectory = path + "\\" + "invalid\\"
-        # invalidDirectory = path + "/" + "invalid/"
+        # invalidDirectory = path + "\\" + "invalid\\"
+        invalidDirectory = path + "/" + "invalid/"
 
         if not os.path.exists(invalidDirectory):
             os.mkdir(invalidDirectory)
@@ -256,8 +256,8 @@ def process_rejected_images(request):
             except Exception as e:
                 print(f"Error moving {source_path} to {destination_path}: {e}")
 
-        newcsvFile = path + "\\" + "results.csv"
-        # newcsvFile = path + "/" + "results.csv"
+        # newcsvFile = path + "\\" + "results.csv"
+        newcsvFile = path + "/" + "results.csv"
         oldcsvFile = os.path.join(
             settings.STATIC_ROOT, "api", "static", "api", "images", "result.csv"
         )
@@ -285,16 +285,16 @@ def process_rejected_images(request):
 def display_csv(request):
     csv_data = []
     path = request.session.get("path")
-    newcsvFile = path + "\\" + "results.csv"
-    # newcsvFile = path + "/" + "results.csv"
+    # newcsvFile = path + "\\" + "results.csv"
+    newcsvFile = path + "/" + "results.csv"
 
     with open(newcsvFile, "r") as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             csv_data.append(row)
 
-    return render(request, "api\display_csv.html", {"csv_data": csv_data})
-    # return render(request, 'api/display_csv.html', {'csv_data': csv_data})
+    # return render(request, "api\display_csv.html", {"csv_data": csv_data})
+    return render(request, 'api/display_csv.html', {'csv_data': csv_data})
 
 
 def delete_all(request):
@@ -317,18 +317,18 @@ def delete_all(request):
     if not os.path.exists(invalid_folder):
         os.mkdir(invalid_folder)
     form = PhotoFolderUploadForm()
-    return render(request, "api\index1.html", {"form": form})
-    # return render(request, 'api/index1.html', {'form': form})
+    # return render(request, "api\index1.html", {"form": form})
+    return render(request, 'api/index1.html', {'form': form})
 
 
 def download_and_delete_csv(request):
-    path = request.session.get("path") + "\\" + "results.csv"
-    # path = request.session.get('path') + "/" + "results.csv"
+    # path = request.session.get("path") + "\\" + "results.csv"
+    path = request.session.get('path') + "/" + "results.csv"
     folder_to_delete = os.path.join(settings.MEDIA_ROOT)
 
     with open(path, "rb") as csv_file:
-        response = HttpResponse(csv_file.read(), content_type="text\\csv")
-        # response = HttpResponse(csv_file.read(), content_type='text/csv')
+        # response = HttpResponse(csv_file.read(), content_type="text\\csv")
+        response = HttpResponse(csv_file.read(), content_type='text/csv')
         response["Content-Disposition"] = 'attachment; filename="results.csv"'
 
     if os.path.exists(folder_to_delete) and os.path.isdir(folder_to_delete):
